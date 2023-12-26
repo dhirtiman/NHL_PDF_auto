@@ -1,0 +1,16 @@
+{
+  "name": "pdf_write",
+  "version": "1.0.0",
+  "description": "write details onto a pdf template from sheets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhirtiman Khati",
+  "license": "ISC",
+  "dependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
+    "csv-parser": "^3.0.0",
+    "pdf-lib": "^1.17.1"
+  }
+}

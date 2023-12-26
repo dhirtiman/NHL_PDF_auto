@@ -1,6 +1,7 @@
 templates/
 data/
 output/
+fonts/
 
 # Ignore node_modules directory
 node_modules/
