@@ -2,6 +2,7 @@ templates/
 data/
 output/
 fonts/
+PatientPDF/
 
 # Ignore node_modules directory
 node_modules/

@@ -47,7 +47,7 @@ async function mergePdfWithSingleRow() {
         });
 }
 
-async function mergePdfWithAllRows() {
+async function mergePdfFromRowNumber(startRowNumber) {
     // Read data from CSV file
     const data = [];
     fs.createReadStream('data/NHL response 2.csv')
@@ -63,29 +63,38 @@ async function mergePdfWithAllRows() {
 
             // Iterate through all rows in the CSV
             for (const rowData of data) {
-                // Load the existing PDF template for each row
-                const pdfDoc = await PDFDocument.load(templatePdfBytes);
-                pdfDoc.registerFontkit(fontkit);
-                const font = await pdfDoc.embedFont(fontBytes);
+                // Check if the current row is greater than or equal to the specified startRowNumber
+                if (parseInt(rowData['Sl Number']) >= startRowNumber) {
+                    // Load the existing PDF template for each row
+                    const pdfDoc = await PDFDocument.load(templatePdfBytes);
+                    pdfDoc.registerFontkit(fontkit);
+                    const font = await pdfDoc.embedFont(fontBytes);
 
-                // Get the first page of the PDF
-                const page = pdfDoc.getPages()[0];
+                    // Get the first page of the PDF
+                    const page = pdfDoc.getPages()[0];
 
-                // Write data to specific points on the PDF for each row
-                page.drawText(`${rowData['Sl Number']}`, { x: 1200, y: 2340, font, size: textSize, color: textColor });
-                page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
-                page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
-                page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
+                    // Write data to specific points on the PDF for each row
+                    page.drawText(`${rowData['Sl Number']}`, { x: 1200, y: 2340, font, size: textSize, color: textColor });
+                    page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
+                    page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
+                    page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
 
-                // Save the modified PDF to a new file for each row
-                const modifiedPdfBytes = await pdfDoc.save();
-                fs.writeFileSync(`output/Sl_${rowData['Sl Number']}_${rowData.Name}.pdf`, modifiedPdfBytes);
+                    // Save the modified PDF to a new file for each row
+                    const modifiedPdfBytes = await pdfDoc.save();
+                    fs.writeFileSync(`output/Sl_${rowData['Sl Number']}_${rowData.Name}.pdf`, modifiedPdfBytes);
+                }
             }
 
-            console.log('PDFs with data from all rows merged successfully!');
+            console.log(`PDFs with data from row ${startRowNumber} onwards merged successfully!`);
         });
 }
 
-mergePdfWithAllRows();
+// Example: Generate PDFs starting from row number 3
 
 mergePdfWithSingleRow();
+
+
+
+const startRow = 4;
+
+mergePdfFromRowNumber(startRow);
