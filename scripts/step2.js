@@ -70,12 +70,12 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 
       // Save the modified PDF to a new file
       const modifiedPdfBytes = await pdfDoc.save();
-      fs.writeFileSync(`PatientPDF/Output/sl_${slNumberToFind}.pdf`, modifiedPdfBytes);
+      fs.writeFileSync(`PatientPDF/Output/sl_${slNumberToFind}_${rowData.Name}_Final.pdf`, modifiedPdfBytes);
 
       console.log(`PDF for SL_Number ${slNumberToFind} generated successfully!`);
     });
 }
 
-// Replace 'your_sl_number' with the specific SL_Number you want to generate a PDF for
+// Specific File Name
 const fileName = 'SL_2_Chuba.pdf'
 generatePdfFromSlNumber('2');  // Example using SL_Number '2'
