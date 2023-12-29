@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { PDFDocument, rgb } = require('pdf-lib'); // Import fontkit
+const { PDFDocument, rgb } = require('pdf-lib'); 
 const fontkit = require('@pdf-lib/fontkit');
 const csv = require('csv-parser');
 
@@ -8,7 +8,7 @@ const colorValue = 0.10;
 const textColor = rgb(colorValue, colorValue, colorValue)
 
 
-async function mergePdfWithSingleRow() {
+async function mergePdfWithSingleRow(rowNumber) {
     // Read data from CSV file
     const data = [];
     fs.createReadStream('data/NHL response 2.csv')
@@ -31,7 +31,7 @@ async function mergePdfWithSingleRow() {
             const page = pdfDoc.getPages()[0];
 
             // Get data from the first row
-            const rowData = data[0];
+            const rowData = data[rowNumber];
 
             // Write data to specific points on the PDF
             page.drawText(`${rowData['Sl Number']}`, { x: 1200, y: 2340, font, size: textSize, color: textColor });
@@ -89,12 +89,16 @@ async function mergePdfFromRowNumber(startRowNumber) {
         });
 }
 
-// Example: Generate PDFs starting from row number 3
 
-mergePdfWithSingleRow();
+// Generate from specific row
+
+const specificRow = 0;
+
+mergePdfWithSingleRow(specificRow);
 
 
 
+// Generate from a specific row number
 const startRow = 4;
 
 mergePdfFromRowNumber(startRow);
