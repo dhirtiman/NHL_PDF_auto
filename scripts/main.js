@@ -99,6 +99,6 @@ mergePdfWithSingleRow(specificRow);
 
 
 // Generate from a specific row number
-const startRow = 4;
+const startRow = 0;
 
 mergePdfFromRowNumber(startRow);

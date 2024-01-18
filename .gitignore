@@ -3,6 +3,7 @@ data/
 output/
 fonts/
 PatientPDF/
+combine/
 
 # Ignore node_modules directory
 node_modules/

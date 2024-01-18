@@ -56,26 +56,27 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 
       // PAGE 2
 
-      const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/,/g, '\n\n\n\n\n\n');
-      const addonsText = `${rowData.Addons}`.replace(/,/g, '\n\n\n\n\n\n');
+      const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/\n/g, '\n\n\n\n\n\n');
+      const addonsText = `${rowData.Addons}`.replace(/\n/g, '\n\n\n\n\n\n');
 
       page2.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
       page2.drawText(`${addonsText}`, { x: 2700, y: 1900, font, size: textSize+10, color: textColor });
 
      // PAGE 3
-     const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');
+     const goalsText = `${rowData.Goals}`.replace(/\n/g, '\n\n\n\n\n\n\n');
 
       page3.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
       // Continue adding other fields to page3
 
       // Save the modified PDF to a new file
       const modifiedPdfBytes = await pdfDoc.save();
-      fs.writeFileSync(`PatientPDF/Output/sl_${slNumberToFind}_${rowData.Name}_Final.pdf`, modifiedPdfBytes);
+      fs.writeFileSync(`PatientPDF/Output/sl_${slNumberToFind}_${rowData.Name}_F.pdf`, modifiedPdfBytes);
 
       console.log(`PDF for SL_Number ${slNumberToFind} generated successfully!`);
     });
 }
 
 // Specific File Name
-const fileName = 'SL_2_Chuba.pdf'
-generatePdfFromSlNumber('2');  // Example using SL_Number '2'
+const fileName = 'Sl_3_Nukulu Kotsi.pdf'
+generatePdfFromSlNumber('3');  // Example using SL_Number '2'
+
