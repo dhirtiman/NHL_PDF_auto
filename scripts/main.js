@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { PDFDocument, rgb } = require('pdf-lib'); 
+const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 const csv = require('csv-parser');
 
@@ -11,14 +11,15 @@ const textColor = rgb(colorValue, colorValue, colorValue)
 async function mergePdfWithSingleRow(rowNumber) {
     // Read data from CSV file
     const data = [];
-    fs.createReadStream('data/NHL response 2.csv')
+    fs.createReadStream(`data/${csvName}`)
         .pipe(csv())
         .on('data', (row) => {
             data.push(row);
         })
         .on('end', async () => {
             // Load existing PDF
-            const pdfBytes = fs.readFileSync('templates/NHL_template_g.pdf');
+            const pdfBytes = fs.readFileSync(`templates/${templateName}`);
+
 
             // Load the font directly from the file path
             const fontPath = 'fonts/Shrikhand/Shrikhand-Regular.ttf';
@@ -50,14 +51,14 @@ async function mergePdfWithSingleRow(rowNumber) {
 async function mergePdfFromRowNumber(startRowNumber) {
     // Read data from CSV file
     const data = [];
-    fs.createReadStream('data/NHL response 2.csv')
+    fs.createReadStream(`./data/${csvName}`)
         .pipe(csv())
         .on('data', (row) => {
             data.push(row);
         })
         .on('end', async () => {
             // Load the existing PDF template
-            const templatePdfBytes = fs.readFileSync('templates/NHL_template_g.pdf');
+            const templatePdfBytes = fs.readFileSync(`templates/${templateName}`);
             const fontPath = 'fonts/Shrikhand/Shrikhand-Regular.ttf';
             const fontBytes = fs.readFileSync(fontPath);
 
@@ -90,11 +91,16 @@ async function mergePdfFromRowNumber(startRowNumber) {
 }
 
 
+// File names in data folder and templates folder 
+
+const csvName = 'step1.csv';
+const templateName = 'NHL_template_New.pdf'
+
 // Generate from specific row
 
 const specificRow = 0;
 
-mergePdfWithSingleRow(specificRow);
+// mergePdfWithSingleRow(specificRow);
 
 
 

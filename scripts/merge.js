@@ -30,7 +30,8 @@ async function combinePDFs(pdfPaths, outputPath) {
 }
 
 // Example usage:
-const folderPath = 'combine/begom';
-const outputPath = 'combine/output/diet_doc.pdf';
+const folderPath = 'data/gut';
+const outputPath = 'combine/output/NHL_GutReset Phase - TimeTable.pdf';
+
 
 combinePDFsFromFolder(folderPath, outputPath);
