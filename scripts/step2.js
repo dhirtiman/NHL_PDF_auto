@@ -30,6 +30,9 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const fontPath = 'fonts/Shrikhand/Shrikhand-Regular.ttf';
       const fontBytes = fs.readFileSync(fontPath);
 
+      const tickImagePath = 'data/ticknobg.png'; // Replace with the path to your tick mark image
+      const tickImageBytes = fs.readFileSync(tickImagePath);
+
       // Load PDF
       const pdfDoc = await PDFDocument.load(templatePdfBytes);
       pdfDoc.registerFontkit(fontkit);
@@ -39,7 +42,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const page1 = pdfDoc.getPages()[0];
       const page2 = pdfDoc.getPages()[1];
       const page3 = pdfDoc.getPages()[2];
-      const page4 = pdfDoc.getPages()[3];
+      const page5 = pdfDoc.getPages()[4];
 
       // Write data to specific points on each page
       page1.drawText(`${rowData.Height}`, { x: 900, y: 1400, font, size: textSize, color: textColor });
@@ -56,9 +59,11 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 
       // Write checkboxes for medical conditions
 
+      const tick = '*';
+      const tickImage = await pdfDoc.embedPng(tickImageBytes);
 
-      
-      const medicalConditions = rowData['select any medical conditions '].split(',');
+
+      const medicalConditions = rowData['select any medical conditions'].split(',');
       const medicalConditionsZCoor = 2020
 
       const medicalConditionsMap = {
@@ -73,7 +78,13 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       for (const condition of medicalConditions) {
         const [x, y] = medicalConditionsMap[condition];
         if (x && y) {
-          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+          page2.drawImage(tickImage, {
+            x: x-50,
+            y: y,
+            width: tickImage.width,
+            height: tickImage.height,
+          });
+
         }
       }
 
@@ -94,7 +105,12 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       for (const deficiency of deficiencies) {
         const [x, y] = deficienciesMap[deficiency];
         if (x && y) {
-          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+          page2.drawImage(tickImage, {
+            x: x-50,
+            y: y,
+            width: tickImage.width,
+            height: tickImage.height,
+          });
         }
       }
 
@@ -115,7 +131,12 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       for (const concern of healthConcerns) {
         const [x, y] = healthConcernsMap[concern];
         if (x && y) {
-          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+          page2.drawImage(tickImage, {
+            x: x-50,
+            y: y,
+            width: tickImage.width,
+            height: tickImage.height,
+          });
         }
       }
 
@@ -125,8 +146,8 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 
       // PAGE 3
 
-      const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/\n/g, '\n\n\n\n\n\n');
-      const addonsText = `${rowData.Addons}`.replace(/\n/g, '\n\n\n\n\n\n');
+      const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/,/g, '\n\n\n\n\n\n');
+      const addonsText = `${rowData.Addons}`.replace(/,/g, '\n\n\n\n\n\n');
 
       page3.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
       page3.drawText(`${addonsText}`, { x: 2700, y: 1900, font, size: textSize + 10, color: textColor });
@@ -134,7 +155,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       // PAGE 4
       const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');
 
-      page4.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
+      page5.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
       // Continue adding other fields to page5
 
       // Save the modified PDF to a new file
@@ -146,7 +167,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 }
 
 // Specific File Name
-const fileName = 'Sl_1_Abokali Jimomi.pdf'
+const fileName = 'Sl_3_Tokato Sumi.pdf'
 const csvName = 'step2.csv'
-generatePdfFromSlNumber('1');  // Example using SL_Number '2'
+generatePdfFromSlNumber('3');  // Example using SL_Number '2'
 
