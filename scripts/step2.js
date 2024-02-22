@@ -4,13 +4,14 @@ const fontkit = require('@pdf-lib/fontkit');
 const csv = require('csv-parser');
 
 const textSize = 85;
+const tickSize = 180;
 const colorValue = 0.10;
 const textColor = rgb(colorValue, colorValue, colorValue);
 
 async function generatePdfFromSlNumber(slNumberToFind) {
   // Read data from the second CSV file
   const data = [];
-  fs.createReadStream('data/Patient_step2.csv')
+  fs.createReadStream(`data/${csvName}`)
     .pipe(csv())
     .on('data', (row) => {
       data.push(row);
@@ -38,6 +39,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const page1 = pdfDoc.getPages()[0];
       const page2 = pdfDoc.getPages()[1];
       const page3 = pdfDoc.getPages()[2];
+      const page4 = pdfDoc.getPages()[3];
 
       // Write data to specific points on each page
       page1.drawText(`${rowData.Height}`, { x: 900, y: 1400, font, size: textSize, color: textColor });
@@ -50,23 +52,90 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       page1.drawText(`${rowData.WaistHipRatio}`, { x: 3650, y: 700, font, size: textSize, color: textColor });
       page1.drawText(`${rowData.BodyAge}`, { x: 4300, y: 700, font, size: textSize, color: textColor });
 
-
-
-
-
       // PAGE 2
+
+      // Write checkboxes for medical conditions
+
+
+      
+      const medicalConditions = rowData['select any medical conditions '].split(',');
+      const medicalConditionsZCoor = 2020
+
+      const medicalConditionsMap = {
+        'Thyroid': [2000, medicalConditionsZCoor],
+        'BP': [2550, medicalConditionsZCoor],
+        'HYPER TENSION': [3100, medicalConditionsZCoor],
+        'URIC ACID': [3650, medicalConditionsZCoor],
+        'DIABETES': [4200, medicalConditionsZCoor],
+        'None': [4800, medicalConditionsZCoor] // Adjust coordinates as needed
+      };
+
+      for (const condition of medicalConditions) {
+        const [x, y] = medicalConditionsMap[condition];
+        if (x && y) {
+          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+        }
+      }
+
+      // Write checkboxes for deficiencies
+      const deficiencies = rowData['Select any deficiencies'].split(',');
+      const deficienciesZCoor = 1220
+
+      const deficienciesMap = {
+        'Iron': [1980, deficienciesZCoor],
+        'Vit D': [2400, deficienciesZCoor],
+        'Cal': [2900, deficienciesZCoor],
+        'Vit A': [3400, deficienciesZCoor],
+        'Magnesium': [3850, deficienciesZCoor],
+        'Iodine': [4300, deficienciesZCoor],
+        'None': [4800, deficienciesZCoor] // Adjust coordinates as needed
+      };
+
+      for (const deficiency of deficiencies) {
+        const [x, y] = deficienciesMap[deficiency];
+        if (x && y) {
+          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+        }
+      }
+
+      // Write checkboxes for other health concerns
+      const healthConcerns = rowData['Select any other Health concerns'].split(',');
+      const healConcernsZCoor = 420
+      const healthConcernsMap = {
+        'Heart': [1950, healConcernsZCoor],
+        'Energy': [2350, healConcernsZCoor],
+        'Liver': [2750, healConcernsZCoor],
+        'Immunity': [3150, healConcernsZCoor],
+        'GUT': [3560, healConcernsZCoor],
+        'Mind': [4000, healConcernsZCoor],
+        'Bone / Joint': [4400, healConcernsZCoor],
+        'None': [4800, healConcernsZCoor] // Adjust coordinates as needed
+      };
+
+      for (const concern of healthConcerns) {
+        const [x, y] = healthConcernsMap[concern];
+        if (x && y) {
+          page2.drawText('*', { x, y, font, size: tickSize, color: textColor });
+        }
+      }
+
+
+
+
+
+      // PAGE 3
 
       const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/\n/g, '\n\n\n\n\n\n');
       const addonsText = `${rowData.Addons}`.replace(/\n/g, '\n\n\n\n\n\n');
 
-      page2.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
-      page2.drawText(`${addonsText}`, { x: 2700, y: 1900, font, size: textSize+10, color: textColor });
+      page3.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
+      page3.drawText(`${addonsText}`, { x: 2700, y: 1900, font, size: textSize + 10, color: textColor });
 
-     // PAGE 3
-     const goalsText = `${rowData.Goals}`.replace(/\n/g, '\n\n\n\n\n\n\n');
+      // PAGE 4
+      const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');
 
-      page3.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
-      // Continue adding other fields to page3
+      page4.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
+      // Continue adding other fields to page5
 
       // Save the modified PDF to a new file
       const modifiedPdfBytes = await pdfDoc.save();
@@ -77,6 +146,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 }
 
 // Specific File Name
-const fileName = 'Sl_3_Nukulu Kotsi.pdf'
-generatePdfFromSlNumber('3');  // Example using SL_Number '2'
+const fileName = 'Sl_1_Abokali Jimomi.pdf'
+const csvName = 'step2.csv'
+generatePdfFromSlNumber('1');  // Example using SL_Number '2'
 
