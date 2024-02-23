@@ -4,7 +4,6 @@ const fontkit = require('@pdf-lib/fontkit');
 const csv = require('csv-parser');
 
 const textSize = 85;
-const tickSize = 180;
 const colorValue = 0.10;
 const textColor = rgb(colorValue, colorValue, colorValue);
 
@@ -59,7 +58,6 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 
       // Write checkboxes for medical conditions
 
-      const tick = '*';
       const tickImage = await pdfDoc.embedPng(tickImageBytes);
 
 
@@ -150,7 +148,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const addonsText = `${rowData.Addons}`.replace(/,/g, '\n\n\n\n\n\n');
 
       page3.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
-      page3.drawText(`${addonsText}`, { x: 2700, y: 1900, font, size: textSize + 10, color: textColor });
+      page3.drawText(`${addonsText}`, { x: 2600, y: 1900, font, size: textSize + 10, color: textColor });
 
       // PAGE 4
       const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');

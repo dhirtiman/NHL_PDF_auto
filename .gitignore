@@ -4,6 +4,7 @@ output/
 fonts/
 PatientPDF/
 combine/
+step3/
 
 # Ignore node_modules directory
 node_modules/
