@@ -617,8 +617,10 @@ function mainFunction(sl_number) {
 
 
 
-let sl_number = 7;
+let sl_number = 10;                                   /// start here
 sl_number = sl_number.toString();
 mainFunction(sl_number);
 // step3(sl_number);
+
+
 

@@ -165,7 +165,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
 }
 
 // Specific File Name
-const fileName = 'Sl_3_Tokato Sumi.pdf'
+const fileName = 'Sl_12_Jacob Thonger .pdf'
 const csvName = 'step2.csv'
-generatePdfFromSlNumber('3');  // Example using SL_Number '2'
+generatePdfFromSlNumber('12');  // Example using SL_Number '2'
 
