@@ -39,6 +39,9 @@ async function mergePdfWithSingleRow(rowNumber) {
             page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
+            page.drawText(`${rowData['Phone number']}`, { x: 900, y: 1150, font, size: textSize, color: textColor });
+
+
 
 
             // Save the modified PDF to a new file
@@ -79,6 +82,9 @@ async function mergePdfFromRowNumber(startRowNumber) {
                     page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
                     page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
                     page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
+                    page.drawText(`${rowData['Phone number']}`, { x: 900, y: 1150, font, size: textSize, color: textColor });
+
+
 
                     // Save the modified PDF to a new file for each row
                     const modifiedPdfBytes = await pdfDoc.save();
@@ -98,7 +104,7 @@ const templateName = 'NHL_template_New.pdf'
 
 // Generate from specific row
 
-const specificRow = 0;
+const specificRow = 0;                                     /// FOR ONE start here
 
 // mergePdfWithSingleRow(specificRow);
 
@@ -107,4 +113,4 @@ const specificRow = 0;
 // Generate from a specific row number
 const startRow = 0;
 
-mergePdfFromRowNumber(startRow);
+mergePdfFromRowNumber(startRow);                      ///  FOR A LOT FROM A GIVEN POINT start here

@@ -44,6 +44,8 @@ async function mergePdfWithSingleRow(slNumberToFind, callback) {
             page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
+            page.drawText(`${rowData['Phone number']}`, { x: 900, y: 1150, font, size: textSize, color: textColor });
+
 
 
             // Save the modified PDF to a new file
@@ -90,16 +92,20 @@ async function generatePdfFromSlNumber(slNumberToFind, callback) {
             const page3 = pdfDoc.getPages()[2];   // page 3 medical
             const page4 = pdfDoc.getPages()[3];   // page 4 goals
 
+            const yMinus = 150;
             // Write data to specific points on each page
             page1.drawText(`${rowData.Height}`, { x: 900, y: 1400, font, size: textSize, color: textColor });
             page1.drawText(`${rowData.Weight}`, { x: 2400, y: 1400, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.BMI}`, { x: 500, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.BodyFat}`, { x: 1100, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData['LeanMass(S/M)']}`, { x: 1700, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.VisceralFat}`, { x: 2350, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.WaistLine}`, { x: 2900, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.WaistHipRatio}`, { x: 3650, y: 700, font, size: textSize, color: textColor });
-            page1.drawText(`${rowData.BodyAge}`, { x: 4300, y: 700, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.BMI}`, { x: 500, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.BodyFat}`, { x: 1100, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData['LeanMass(S/M)']}`, { x: 1700, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.VisceralFat}`, { x: 2350, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.WaistLine}`, { x: 2900, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.WaistHipRatio}`, { x: 3650, y: 700 - yMinus, font, size: textSize, color: textColor });
+            page1.drawText(`${rowData.BodyAge}`, { x: 4300, y: 700 - yMinus, font, size: textSize, color: textColor });
+
+            page1.drawText(`${rowData['Dietary preference']}`, { x: 3451, y: 1300 - yMinus, font, size: textSize, color: textColor })
+
 
             // PAGE 2
 
@@ -206,7 +212,7 @@ async function generatePdfFromSlNumber(slNumberToFind, callback) {
         });
 }
 
-async function step3(slNumberToFind,callback) {
+async function step3(slNumberToFind, callback) {
     const data = [];
     fs.createReadStream(`data/${step3CSV}`)
         .pipe(csv())
@@ -600,14 +606,14 @@ const step1CSV = 'step1.csv';
 const step2CSV = 'step2.csv'
 const step3CSV = 'step3.csv'
 const templateName = 'NHL_P_Intel_w_Question.pdf'
-
+ 
 // Generate from specific row
 
 
 function mainFunction(sl_number) {
     mergePdfWithSingleRow(sl_number, () => {
         generatePdfFromSlNumber(sl_number, () => {
-            step3(sl_number,()=>{
+            step3(sl_number, () => {
                 renameFile();
             });
         });
@@ -617,7 +623,7 @@ function mainFunction(sl_number) {
 
 
 
-let sl_number = 10;                                   /// start here
+let sl_number = 14;                                   /// start here
 sl_number = sl_number.toString();
 mainFunction(sl_number);
 // step3(sl_number);

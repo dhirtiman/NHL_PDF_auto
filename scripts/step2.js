@@ -43,16 +43,19 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const page3 = pdfDoc.getPages()[2];
       const page5 = pdfDoc.getPages()[4];
 
+      const yMinus = 150;
       // Write data to specific points on each page
       page1.drawText(`${rowData.Height}`, { x: 900, y: 1400, font, size: textSize, color: textColor });
       page1.drawText(`${rowData.Weight}`, { x: 2400, y: 1400, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.BMI}`, { x: 500, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.BodyFat}`, { x: 1100, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData['LeanMass(S/M)']}`, { x: 1700, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.VisceralFat}`, { x: 2350, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.WaistLine}`, { x: 2900, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.WaistHipRatio}`, { x: 3650, y: 700, font, size: textSize, color: textColor });
-      page1.drawText(`${rowData.BodyAge}`, { x: 4300, y: 700, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.BMI}`, { x: 500, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.BodyFat}`, { x: 1100, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData['LeanMass(S/M)']}`, { x: 1700, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.VisceralFat}`, { x: 2350, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.WaistLine}`, { x: 2900, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.WaistHipRatio}`, { x: 3650, y: 700 - yMinus, font, size: textSize, color: textColor });
+      page1.drawText(`${rowData.BodyAge}`, { x: 4300, y: 700 - yMinus, font, size: textSize, color: textColor });
+
+      page1.drawText(`${rowData['Dietary preference']}`,{ x: 3451, y: 1300 - yMinus, font, size: textSize, color: textColor })
 
       // PAGE 2
 
@@ -77,7 +80,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
         const [x, y] = medicalConditionsMap[condition];
         if (x && y) {
           page2.drawImage(tickImage, {
-            x: x-50,
+            x: x - 50,
             y: y,
             width: tickImage.width,
             height: tickImage.height,
@@ -104,7 +107,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
         const [x, y] = deficienciesMap[deficiency];
         if (x && y) {
           page2.drawImage(tickImage, {
-            x: x-50,
+            x: x - 50,
             y: y,
             width: tickImage.width,
             height: tickImage.height,
@@ -130,7 +133,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
         const [x, y] = healthConcernsMap[concern];
         if (x && y) {
           page2.drawImage(tickImage, {
-            x: x-50,
+            x: x - 50,
             y: y,
             width: tickImage.width,
             height: tickImage.height,
@@ -163,9 +166,28 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       console.log(`PDF for SL_Number ${slNumberToFind} generated successfully!`);
     });
 }
+function extractFirstNo(string) {
+  let number = '';
+  
+  for (let s of string) {
+    if (!isNaN(s)) {
+      number += s;
+    } else if (number !== '') {
+      return number;
+    }
+  }
+  
+  return number;
+}
 
 // Specific File Name
-const fileName = 'Sl_12_Jacob Thonger .pdf'
+const fileName = 'Sl_4_Sweta sunar.pdf'                /// start here
 const csvName = 'step2.csv'
-generatePdfFromSlNumber('12');  // Example using SL_Number '2'
+
+console.log(extractFirstNo(fileName));
+
+generatePdfFromSlNumber(extractFirstNo(fileName));  
+
+
+
 
