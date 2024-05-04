@@ -30,8 +30,8 @@ async function combinePDFs(pdfPaths, outputPath) {
 }
 
 // Example usage:
-const folderPath = 'combine/Abokali';
-const name = 'Abokali'
+const folderPath = 'combine/Kumar';
+const name = 'Krishna_Kumari '
 
 
 const outputPath = `combine/output/Diet_doc_${name}.pdf`;
