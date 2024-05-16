@@ -49,7 +49,7 @@ async function mergePdfWithSingleRow(slNumberToFind, callback) {
             }
 
             // Write data to specific points on the PDF
-            page.drawText(`${rowData['Sl Number']}`, { x: 1200, y: 2340, font, size: textSize, color: textColor });
+            page.drawText(`${rowData['Sl Number']}/${preFix}`, { x: 1200, y: 2340, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Name}`, { x: 700, y: 2042, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Age}`, { x: 600, y: 1745, font, size: textSize, color: textColor });
             page.drawText(`${rowData.Gender}`, { x: 2100, y: 1745, font, size: textSize, color: textColor });
@@ -100,6 +100,8 @@ async function generatePdfFromSlNumber(slNumberToFind, callback) {
             const page1 = pdfDoc.getPages()[0];   // page 1 body data
             const page3 = pdfDoc.getPages()[2];   // page 3 medical
             const page4 = pdfDoc.getPages()[3];   // page 4 goals
+
+            const page5 = pdfDoc.getPages()[4];   // page 4 goals
 
             const yMinus = 150;
             // Write data to specific points on each page
@@ -200,14 +202,18 @@ async function generatePdfFromSlNumber(slNumberToFind, callback) {
                 }
             }
 
+            // Page 3
 
+            const coreSupplementsText = `${rowData.Core_Supplements}`.replace(/,/g, '\n\n\n\n\n\n');
+      
+            page4.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
 
 
             // PAGE 4
             const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');
 
-            page4.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
-            // Continue adding other fields to page4
+            page5.drawText(`${goalsText}`, { x: 700, y: 1930, font, size: textSize, color: textColor });
+            // Continue adding other fields to page5
 
             // Save the modified PDF to a new file
             const modifiedPdfBytes = await pdfDoc.save();
@@ -573,6 +579,48 @@ async function step3(slNumberToFind, callback) {
             }
 
 
+            const q15 = rowData['How many times a week do you drink alcohol ?( choose 0 if you don\'t)']
+            const q15ZCoor = 1050;
+
+            const q15Map = {
+                '0': [3720, q15ZCoor], // x = 3720
+                '1-2 times': [3978, q15ZCoor],
+                '3-4 times': [4185, q15ZCoor],
+                '>5 times': [4450, q15ZCoor],
+            };
+            
+
+            [x, y] = q15Map[q15];
+            if (x && y) {
+                page2.drawImage(tickImage, {
+                    x: x,
+                    y: y,
+                    width: tickWidth,
+                    height: tickheight,
+                });
+            }
+
+            const q16 = rowData['How many times a week do you smoke?( choose 0 if you don\'t)']
+            const q16ZCor = 730;
+
+            const q16Map = {
+                '0': [3720, q16ZCor], // x = 3720
+                '1-2 times': [3978, q16ZCor],
+                '3-4 times': [4185, q16ZCor],
+                'Daily': [4450, q16ZCor],
+            };
+            
+
+            [x, y] = q16Map[q16];
+            if (x && y) {
+                page2.drawImage(tickImage, {
+                    x: x,
+                    y: y,
+                    width: tickWidth,
+                    height: tickheight,
+                });
+            }
+
 
 
 
@@ -631,8 +679,9 @@ function mainFunction(sl_number) {
 
 
 
+const preFix = '2024'
 
-let sl_number = 19;                                   /// start here
+let sl_number = 122;                                   /// start here
 sl_number = sl_number.toString();
 mainFunction(sl_number);
 // step3(sl_number);

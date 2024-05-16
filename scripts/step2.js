@@ -151,7 +151,7 @@ async function generatePdfFromSlNumber(slNumberToFind) {
       const addonsText = `${rowData.Addons}`.replace(/,/g, '\n\n\n\n\n\n');
 
       page3.drawText(`${coreSupplementsText}`, { x: 600, y: 1900, font, size: textSize + 10, color: textColor });
-      page3.drawText(`${addonsText}`, { x: 2600, y: 1900, font, size: textSize + 10, color: textColor });
+      page3.drawText(`${addonsText}`, { x: 2470, y: 1900, font, size: textSize + 10, color: textColor });
 
       // PAGE 4
       const goalsText = `${rowData.Goals}`.replace(/,/g, '\n\n\n\n\n\n\n');
@@ -181,7 +181,7 @@ function extractFirstNo(string) {
 }
 
 // Specific File Name
-const fileName = 'Sl_19_Prashant singh chundawat.pdf'                /// start here
+const fileName = 'Sl_122_Zujamo Yanthan.pdf'                /// start here
 const csvName = 'step2.csv'
 
 console.log(extractFirstNo(fileName));
