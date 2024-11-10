@@ -181,7 +181,7 @@ function extractFirstNo(string) {
 }
 
 // Specific File Name
-const fileName = 'Sl_122_Zujamo Yanthan.pdf'                /// start here
+const fileName = 'Sl_202_Asangla Masa.pdf'                /// start here
 const csvName = 'step2.csv'
 
 console.log(extractFirstNo(fileName));
